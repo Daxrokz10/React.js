@@ -32,7 +32,7 @@ const Form = () => {
         setEditId(id);
     }
     const handleDelete = (id) => {
-        const data = list.filter(val => val.id != id);
+        const data = list.filter(val => val.id == id);
         setList(data);
     }
 
