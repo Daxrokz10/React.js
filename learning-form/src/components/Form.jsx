@@ -4,13 +4,14 @@ const Form = () => {
     const [emp, setEmp] = useState({});
     const [list, setList] = useState([]);
     const [editId, setEditId] = useState(null);
-
+    const [errors,setErrors] = useState({});
     const handleInput = (e) => {
         const { name, value } = e.target;
         setEmp({ ...emp, [name]: value });
     }
     const handleForm = (e) => {
         e.preventDefault();
+        if(validateForm()) return;
         if (!editId) {
             setList([...list, { ...emp, id: Date.now() }]);
         }else{
@@ -36,6 +37,18 @@ const Form = () => {
         setList(data);
     }
 
+    const validateForm = () =>{
+        let errors = {};
+        if(!emp.ename){
+            errors.ename = "Employee name is required";
+        }
+        if(!emp.esalary){
+            errors.esalary = "Employee salary is required";
+        }
+        setErrors(errors);
+        return Object.keys(errors).length != 0;
+    }
+
     return (
         <>
             <div className="container">
@@ -45,10 +58,12 @@ const Form = () => {
                             <div className="mb-3">
                                 <label htmlFor="ename" className="form-label">Employee Name</label>
                                 <input type="name" value={emp.ename} name='ename' onChange={handleInput} className="form-control" id="ename" aria-describedby="ename" />
+                                {errors.ename ? <span className="text-danger">{errors.ename}</span> : ''}
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="esalary" className="form-label">Employee Salary</label>
                                 <input type="number" value={emp.esalary} name='esalary' onChange={handleInput} className="form-control" id="esalary" />
+                                {errors.esalary ? <span className="text-danger">{errors.esalary}</span> : ''}
                             </div>
                             <button type="submit" className="btn btn-primary">Submit</button>
                         </form>
@@ -78,7 +93,7 @@ const Form = () => {
                                             </td>
                                         </tr>
                                     ))
-                                    : <tr><td colSpan={4}>No data available</td></tr>}
+                                    : <tr><td colSpan={4} style={{textAlign:"center"}}>No data available</td></tr>}
                             </tbody>
                         </table>
                     </div>

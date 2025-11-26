@@ -27,7 +27,7 @@ const Form = () => {
         setEmp({ename : '', esalary : ''});
     }
     const handleEdit = (id) => {
-        let editData = list.find(val => val.id = id);
+        let editData = list.find(val => val.id != id);
         setEmp(editData);
         setEditId(id);
     }
