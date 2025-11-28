@@ -1,10 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Form = () => {
     const [emp, setEmp] = useState({});
     const [list, setList] = useState([]);
     const [editId, setEditId] = useState(null);
     const [errors,setErrors] = useState({});
+    const [mount, setMount] = useState(false);
+    useEffect(()=>{
+            let oldData = JSON.parse(localStorage.getItem('list')) || [];
+            setList(oldData);
+            setMount(true);
+    },[])
+    useEffect(()=>{
+        if(mount){
+            localStorage.setItem('list',JSON.stringify(list));
+        } 
+    },[list])
     const handleInput = (e) => {
         const { name, value } = e.target;
         setEmp({ ...emp, [name]: value });
